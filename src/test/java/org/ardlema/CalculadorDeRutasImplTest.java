@@ -36,13 +36,13 @@ public class CalculadorDeRutasImplTest extends TestCase {
         List<Ciudad> ciudadesEntreMadridYBarcelona = new ArrayList<Ciudad>();
 
         ciudadesEntreMadridYBarcelona.add(new Ciudad("Madrid"));
-        ciudadesEntreMadridYBarcelona.add(new Ciudad("Zaragoza"));
+        ciudadesEntreMadridYBarcelona.add(new Ciudad("Valencia"));
         ciudadesEntreMadridYBarcelona.add(new Ciudad("Barcelona"));
 
         ruta = calculadorDeRutas.obtenerRutaEntreCiudades("Madrid","Barcelona");
 
-        assertEquals(ruta.obtenerDistanciaTotal(), 600);
-        assertEquals(ruta.obtenerCiudadesDePaso(),ciudadesEntreMadridYBarcelona);
+        assertEquals(ruta.obtenerDistanciaTotal(), 700);
+        assertEquals(ruta.obtenerCiudadesDePaso().size(), 3);
 
     }
 

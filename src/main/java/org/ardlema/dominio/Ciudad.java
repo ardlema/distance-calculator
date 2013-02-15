@@ -12,4 +12,8 @@ public class Ciudad {
 
     private int coordenadaY;
 
+    public String obtenerNombreCiudad() {
+        return nombre;
+    }
+
 }

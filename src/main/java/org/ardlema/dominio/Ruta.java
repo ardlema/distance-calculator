@@ -14,7 +14,15 @@ public class Ruta {
          return distanciaTotal;
     }
 
+    public void establecerDistanciaTotal(int distancia) {
+       distanciaTotal = distancia;
+    }
+
     public List<Ciudad> obtenerCiudadesDePaso() {
         return ciudadesDePaso;
+    }
+
+    public void establecerCiudadesDePaso(List<Ciudad> ciudades) {
+        ciudadesDePaso = ciudades;
     }
 }
