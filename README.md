@@ -10,7 +10,7 @@ INSTRUCCIONES PARA INSTALAR EL PROYECTO
 ---------------------------------------
 
 1. Clonar el repositorio en un directorio local
-2. Ejecutar el siguiente comando de maven
+2. Ejecutar el siguiente comando de maven:
     mvn clean compile install
 
 
