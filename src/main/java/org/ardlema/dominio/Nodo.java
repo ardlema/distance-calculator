@@ -1,24 +1,34 @@
 package org.ardlema.dominio;
 
+import java.util.List;
+
 public class Nodo implements Comparable<Nodo>
 {
-    public final Ciudad ciudad;
+    private final Ciudad ciudad;
 
-    private int minimaDistancica = Integer.MAX_VALUE;
+    private double minimaDistancica = Double.MAX_VALUE;
 
-    public Tramo[] nodosVecinos;
+    private List<Tramo> nodosVecinos;
 
-    public Nodo nodoAnterior;
+    private Nodo nodoAnterior;
 
     public Nodo(Ciudad ciudadDelNodo) {
         ciudad = ciudadDelNodo;
     }
 
-    public void establecerMinimaDistancia(int minima) {
+    public void establecerMinimaDistancia(double minima) {
         minimaDistancica = minima;
     }
 
-    public int obtenerMinimaDistancia() {
+    public List<Tramo> obtenerNodosVecinos(){
+        return nodosVecinos;
+    }
+
+    public void establecerNodosVecinos(List<Tramo> vecinos) {
+        nodosVecinos = vecinos;
+    }
+
+    public double obtenerMinimaDistancia() {
         return minimaDistancica;
     }
 
@@ -34,8 +44,12 @@ public class Nodo implements Comparable<Nodo>
         return ciudad.obtenerNombreCiudad();
     }
 
+    public Ciudad obtenerCiudad() {
+        return ciudad;
+    }
+
     public int compareTo(Nodo other)
     {
-        return new Integer(minimaDistancica).compareTo(other.minimaDistancica);
+        return new Double(minimaDistancica).compareTo(other.minimaDistancica);
     }
 }

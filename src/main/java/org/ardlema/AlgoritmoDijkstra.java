@@ -23,14 +23,14 @@ public class AlgoritmoDijkstra {
 
             Nodo nodo = colaDeNodos.poll();
 
-            for (Tramo tramo : nodo.nodosVecinos)
+            for (Tramo tramo : nodo.obtenerNodosVecinos())
             {
                 Nodo nodoDestino = tramo.obtenerNodoDestino();
-                int distanciaDelTramo = tramo.obtenerDistancia();
-                int distanceThroughNodo = nodo.obtenerMinimaDistancia() + distanciaDelTramo;
-                if (distanceThroughNodo < nodoDestino.obtenerMinimaDistancia()) {
+                double distanciaDelTramo = tramo.obtenerDistancia();
+                double distanceATravesDelNodo = nodo.obtenerMinimaDistancia() + distanciaDelTramo;
+                if (distanceATravesDelNodo < nodoDestino.obtenerMinimaDistancia()) {
                     colaDeNodos.remove(nodoDestino);
-                    nodoDestino.establecerMinimaDistancia(distanceThroughNodo) ;
+                    nodoDestino.establecerMinimaDistancia(distanceATravesDelNodo) ;
                     nodoDestino.establecerNodoAnterior(nodo);
                     colaDeNodos.add(nodoDestino);
                 }

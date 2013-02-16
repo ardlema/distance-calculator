@@ -1,20 +1,18 @@
 package org.ardlema.dominio;
 
-import org.ardlema.dominio.Ciudad;
-
 import java.util.List;
 
 public class Ruta {
 
-    private int distanciaTotal;
+    private double distanciaTotal;
 
     public List<Ciudad> ciudadesDePaso;
 
-    public int obtenerDistanciaTotal() {
+    public double obtenerDistanciaTotal() {
          return distanciaTotal;
     }
 
-    public void establecerDistanciaTotal(int distancia) {
+    public void establecerDistanciaTotal(double distancia) {
        distanciaTotal = distancia;
     }
 

@@ -1,10 +1,12 @@
 package org.ardlema;
 
-import org.ardlema.dominio.Ciudad;
-import org.ardlema.dominio.Ruta;
-import org.ardlema.dominio.Nodo;
-import org.ardlema.dominio.Tramo;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import org.ardlema.dominio.*;
+import org.ardlema.parser.JsonFileParser;
+import org.ardlema.parser.StrategyContext;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,25 +15,9 @@ public class CalculadorDeRutasImpl implements CalculadorDeRutas {
     public Ruta obtenerRutaEntreCiudades(String origen, String destino) {
         Ruta ruta = new Ruta();
 
-        Nodo madrid = new Nodo(new Ciudad("Madrid"));
-        Nodo valencia = new Nodo(new Ciudad("Valencia"));
-        Nodo albacete = new Nodo(new Ciudad("Albacete"));
-        Nodo barcelona = new Nodo(new Ciudad("Barcelona"));
+        Mapa mapa = getMapaFromJson();
 
-        madrid.nodosVecinos = new Tramo[]{ new Tramo(valencia, 350),
-                new Tramo(albacete, 250)};
-
-        albacete.nodosVecinos = new Tramo[]{ new Tramo(madrid, 250),
-                new Tramo(valencia, 100)};
-
-        valencia.nodosVecinos = new Tramo[]{ new Tramo(madrid, 350),
-                new Tramo(albacete, 100),
-                new Tramo(barcelona, 350)
-        };
-
-        barcelona.nodosVecinos = new Tramo[]{ new Tramo(valencia, 350)};
-
-        Nodo[] nodos = { madrid, valencia, albacete, barcelona };
+        List<Nodo> nodos = obtenerNodos(mapa);
 
         Nodo nodoOrigen = obtenerNodoFromString(nodos, origen);
 
@@ -51,24 +37,67 @@ public class CalculadorDeRutasImpl implements CalculadorDeRutas {
 
 
     //TODO Throw exception si no encontramos nodo
-    private Nodo obtenerNodoFromString(Nodo[] nodos, String stringNodo) {
-        Nodo nodoFromString = null;
-        for (Nodo nodo: nodos){
-            if (nodo.ciudad.obtenerNombreCiudad().equals(stringNodo))
-                nodoFromString = nodo;
-        }
-        return nodoFromString;
+    private Nodo obtenerNodoFromString(List<Nodo> nodos, String stringCiudad) {
+        final Ciudad ciudad = new Ciudad(stringCiudad);
+
+        Nodo nodo = Iterables.find(nodos,
+                new Predicate<Nodo>() {
+                    public boolean apply(Nodo n)
+                    {
+                        return ciudad.obtenerNombreCiudad().equals(n.obtenerCiudad().obtenerNombreCiudad());
+                    }
+                });
+
+        return nodo;
+
+
     }
 
     private List<Ciudad> convertirListaDeNodosAListaDeCiudades(List<Nodo> nodos) {
         List<Ciudad> ciudades = new ArrayList<Ciudad>();
 
         for (Nodo nodo: nodos) {
-            ciudades.add(nodo.ciudad);
+            ciudades.add(nodo.obtenerCiudad());
         }
 
         return ciudades;
     }
 
+
+    private List<Nodo> obtenerNodos(Mapa mapa) {
+
+        List<Nodo> nuevoNodos = new ArrayList<Nodo>();
+
+        List<Ciudad> ciudades = mapa.getCiudades();
+
+        for(Ciudad ciudad: ciudades) {
+            nuevoNodos.add(new Nodo(ciudad));
+        }
+
+        for(Nodo nodo: nuevoNodos) {
+
+            List<Nodo> nodosVecinos = mapa.getNodosVecinos(nodo.obtenerCiudad(), nuevoNodos);
+
+            List<Tramo> tramos = new ArrayList<Tramo>();
+            for(Nodo nodoVecino: nodosVecinos) {
+               tramos.add(new Tramo(nodo, nodoVecino));
+
+            }
+            nodo.establecerNodosVecinos(tramos);
+        }
+
+        return nuevoNodos;
+    }
+
+    private Mapa getMapaFromJson(){
+        InputStream jsonMapFile = getClass().getResourceAsStream("/org/ardlema/resources/ciudades_carreteras.json");
+
+        StrategyContext mapContext;
+
+        mapContext = new StrategyContext(new JsonFileParser());
+
+        return mapContext.executeStrategy(jsonMapFile);
+
+    }
 
 }
