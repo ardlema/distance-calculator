@@ -37,8 +37,6 @@ public class CiudadesYCarreterasParserTest extends TestCase {
 
         mapContext = new StrategyContext(new JsonFileParser());
 
-        CiudadesYCarreterasParser parser = new CiudadesYCarreterasParser();
-
         Mapa mapa = mapContext.executeStrategy(jsonMapFile);
 
         List<Carretera> carreteras = mapa.getCarreteras();

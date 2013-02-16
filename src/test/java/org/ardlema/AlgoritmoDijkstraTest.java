@@ -4,7 +4,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.ardlema.dominio.*;
-import org.ardlema.parser.CiudadesYCarreterasParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
