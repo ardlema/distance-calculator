@@ -12,6 +12,7 @@ import org.ardlema.parser.StrategyContext;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class CalculadorDeRutasImpl implements CalculadorDeRutas {
 
@@ -36,10 +37,17 @@ public class CalculadorDeRutasImpl implements CalculadorDeRutas {
         return ruta;
     }
 
+    public List<Ciudad> obtenerCiudadesDisponiblesEnElMapa() {
+        Mapa mapa = getMapaFromJson();
+
+        return mapa.getCiudades();
+    }
+
 
     private Nodo obtenerNodoFromString(List<Nodo> nodos, String stringCiudad) throws CalculadorDeRutasException {
         final Ciudad ciudad = new Ciudad(stringCiudad);
 
+        try {
         Nodo nodo = Iterables.find(nodos,
                 new Predicate<Nodo>() {
                     public boolean apply(Nodo n)
@@ -48,10 +56,10 @@ public class CalculadorDeRutasImpl implements CalculadorDeRutas {
                     }
                 });
 
-        if (nodo == null) throw new CalculadorDeRutasParameterException(CalculadorDeRutasExceptionType.CIUDAD_NO_VALIDA_EXCEPTION);
-
-        return nodo;
-
+            return nodo;
+        } catch(NoSuchElementException noElement) {
+            throw new CalculadorDeRutasParameterException(CalculadorDeRutasExceptionType.CIUDAD_NO_VALIDA_EXCEPTION);
+        }
 
     }
 
@@ -92,7 +100,7 @@ public class CalculadorDeRutasImpl implements CalculadorDeRutas {
     }
 
     private Mapa getMapaFromJson(){
-        InputStream jsonMapFile = getClass().getResourceAsStream("/org/ardlema/resources/ciudades_carreteras.json");
+        InputStream jsonMapFile = getClass().getResourceAsStream("/resources/ciudades_carreteras.json");
 
         StrategyContext mapContext;
 
