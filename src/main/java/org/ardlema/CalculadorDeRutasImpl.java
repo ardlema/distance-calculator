@@ -3,6 +3,9 @@ package org.ardlema;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.ardlema.dominio.*;
+import org.ardlema.excepciones.CalculadorDeRutasException;
+import org.ardlema.excepciones.CalculadorDeRutasExceptionType;
+import org.ardlema.excepciones.CalculadorDeRutasParameterException;
 import org.ardlema.parser.JsonFileParser;
 import org.ardlema.parser.StrategyContext;
 
@@ -12,7 +15,7 @@ import java.util.List;
 
 public class CalculadorDeRutasImpl implements CalculadorDeRutas {
 
-    public Ruta obtenerRutaEntreCiudades(String origen, String destino) {
+    public Ruta obtenerRutaEntreCiudades(String origen, String destino) throws CalculadorDeRutasException {
         Ruta ruta = new Ruta();
 
         Mapa mapa = getMapaFromJson();
@@ -34,9 +37,7 @@ public class CalculadorDeRutasImpl implements CalculadorDeRutas {
     }
 
 
-
-    //TODO Throw exception si no encontramos nodo
-    private Nodo obtenerNodoFromString(List<Nodo> nodos, String stringCiudad) {
+    private Nodo obtenerNodoFromString(List<Nodo> nodos, String stringCiudad) throws CalculadorDeRutasException {
         final Ciudad ciudad = new Ciudad(stringCiudad);
 
         Nodo nodo = Iterables.find(nodos,
@@ -46,6 +47,8 @@ public class CalculadorDeRutasImpl implements CalculadorDeRutas {
                         return ciudad.obtenerNombreCiudad().equals(n.obtenerCiudad().obtenerNombreCiudad());
                     }
                 });
+
+        if (nodo == null) throw new CalculadorDeRutasParameterException(CalculadorDeRutasExceptionType.CIUDAD_NO_VALIDA_EXCEPTION);
 
         return nodo;
 
