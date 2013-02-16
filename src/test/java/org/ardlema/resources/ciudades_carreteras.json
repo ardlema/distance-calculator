@@ -1,0 +1,17 @@
+{
+  "ciudades": [
+    {"nombre": "Madrid", "coordenadaX": "300", "coordenadaY": "300"},
+    {"nombre": "Albacete", "coordenadaX": "400", "coordenadaY": "200"},
+    {"nombre": "Valencia", "coordenadaX": "500", "coordenadaY": "300"},
+    {"nombre": "Barcelona", "coordenadaX": "500", "coordenadaY": "100"}
+  ] ,
+  "carreteras": [
+      {"origen": "Madrid", "destino": "Albacete"},
+      {"origen": "Madrid", "destino": "Valencia"},
+      {"origen": "Albacete", "destino": "Valencia"},
+      {"origen": "Valencia", "destino": "Barcelona"}
+    ]
+}
+
+
+
