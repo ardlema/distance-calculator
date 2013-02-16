@@ -3,12 +3,11 @@ package org.ardlema;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.ardlema.dominio.Ciudad;
-import org.ardlema.dominio.Nodo;
-import org.ardlema.dominio.Ruta;
-import org.ardlema.dominio.Tramo;
+import org.ardlema.dominio.*;
+import org.ardlema.parser.CiudadesYCarreterasParser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AlgoritmoDijkstraTest extends TestCase {
@@ -34,25 +33,36 @@ public class AlgoritmoDijkstraTest extends TestCase {
         Nodo albacete = new Nodo(new Ciudad("Albacete"));
         Nodo barcelona = new Nodo(new Ciudad("Barcelona"));
 
-        madrid.nodosVecinos = new Tramo[]{ new Tramo(valencia, 350),
-                new Tramo(albacete, 250)};
+        List<Tramo> listaTramosMadrid = Arrays.asList(new Tramo(valencia, 350),
+                new Tramo(albacete, 250));
 
-        albacete.nodosVecinos = new Tramo[]{ new Tramo(madrid, 250),
-                new Tramo(valencia, 100)};
+        madrid.establecerNodosVecinos(listaTramosMadrid);
 
-        valencia.nodosVecinos = new Tramo[]{ new Tramo(madrid, 350),
+        List<Tramo> listaTramosAlbacete = Arrays.asList(new Tramo(madrid, 250),
+                new Tramo(albacete, 100));
+
+        albacete.establecerNodosVecinos(listaTramosAlbacete);
+
+        List<Tramo> listaTramosValencia = Arrays.asList(new Tramo(madrid, 350),
                 new Tramo(albacete, 100),
-                new Tramo(barcelona, 350)
-        };
+                new Tramo(barcelona, 350));
+        valencia.establecerNodosVecinos(listaTramosValencia);
 
-        barcelona.nodosVecinos = new Tramo[]{ new Tramo(valencia, 350)};
 
+        List<Tramo> listaTramosBarcelona = Arrays.asList(new Tramo(valencia, 350));
+        barcelona.establecerNodosVecinos(listaTramosBarcelona);
+
+        List<Nodo> listaNodos = new ArrayList<Nodo>();
+        listaNodos.add(madrid);
+        listaNodos.add(albacete);
+        listaNodos.add(valencia);
+        listaNodos.add(barcelona);
 
         AlgoritmoDijkstra.calcularTodosLosPosiblesCaminosDesdeNodoOrigen(madrid);
 
-        assertEquals(valencia.obtenerMinimaDistancia(),350);
-        assertEquals(albacete.obtenerMinimaDistancia(),250);
-        assertEquals(barcelona.obtenerMinimaDistancia(),700);
+        assertEquals(valencia.obtenerMinimaDistancia(),350.0);
+        assertEquals(albacete.obtenerMinimaDistancia(),250.0);
+        assertEquals(barcelona.obtenerMinimaDistancia(),700.0);
 
     }
 
@@ -62,24 +72,37 @@ public class AlgoritmoDijkstraTest extends TestCase {
         Nodo albacete = new Nodo(new Ciudad("Albacete"));
         Nodo barcelona = new Nodo(new Ciudad("Barcelona"));
 
-        madrid.nodosVecinos = new Tramo[]{ new Tramo(valencia, 350),
-                new Tramo(albacete, 250)};
+        List<Tramo> listaTramosMadrid = Arrays.asList(new Tramo(valencia, 350),
+                new Tramo(albacete, 250));
 
-        albacete.nodosVecinos = new Tramo[]{ new Tramo(madrid, 250),
-                new Tramo(valencia, 100)};
+        madrid.establecerNodosVecinos(listaTramosMadrid);
 
-        valencia.nodosVecinos = new Tramo[]{ new Tramo(madrid, 350),
+        List<Tramo> listaTramosAlbacete = Arrays.asList(new Tramo(madrid, 250),
+                new Tramo(albacete, 100));
+
+        albacete.establecerNodosVecinos(listaTramosAlbacete);
+
+        List<Tramo> listaTramosValencia = Arrays.asList(new Tramo(madrid, 350),
                 new Tramo(albacete, 100),
-                new Tramo(barcelona, 350)
-        };
+                new Tramo(barcelona, 350));
+        valencia.establecerNodosVecinos(listaTramosValencia);
 
-        barcelona.nodosVecinos = new Tramo[]{ new Tramo(valencia, 350)};
+
+        List<Tramo> listaTramosBarcelona = Arrays.asList(new Tramo(valencia, 350));
+        barcelona.establecerNodosVecinos(listaTramosBarcelona);
+
+
+        List<Nodo> listaNodos = new ArrayList<Nodo>();
+        listaNodos.add(madrid);
+        listaNodos.add(albacete);
+        listaNodos.add(valencia);
+        listaNodos.add(barcelona);
 
         AlgoritmoDijkstra.calcularTodosLosPosiblesCaminosDesdeNodoOrigen(madrid);
 
-        List<Nodo> nodosDePasoHastaBarcelona = AlgoritmoDijkstra.obtenerElCaminoMasCortoADestino(barcelona);
+        List<Nodo> nodosDePasoHastaBarcelona = AlgoritmoDijkstra.obtenerElCaminoMasCortoADestino(listaNodos.get(3));
 
-        assertEquals(nodosDePasoHastaBarcelona.size(), 3);
+        assertEquals(3, nodosDePasoHastaBarcelona.size());
 
         assertEquals(nodosDePasoHastaBarcelona.get(0), madrid);
         assertEquals(nodosDePasoHastaBarcelona.get(1), valencia);
@@ -87,11 +110,9 @@ public class AlgoritmoDijkstraTest extends TestCase {
 
         List<Nodo> nodosDePasoHastaAlbacete = AlgoritmoDijkstra.obtenerElCaminoMasCortoADestino(albacete);
 
-        assertEquals(nodosDePasoHastaAlbacete.size(), 2);
+        assertEquals(2, nodosDePasoHastaAlbacete.size());
         assertEquals(nodosDePasoHastaAlbacete.get(0), madrid);
         assertEquals(nodosDePasoHastaAlbacete.get(1), albacete);
-
-
     }
 
 
@@ -106,7 +127,5 @@ public class AlgoritmoDijkstraTest extends TestCase {
     public static void main(String args[]) {
         junit.textui.TestRunner.run(suite());
     }
-
-
 
 }

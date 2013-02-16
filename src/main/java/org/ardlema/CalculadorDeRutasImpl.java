@@ -25,10 +25,9 @@ public class CalculadorDeRutasImpl implements CalculadorDeRutas {
 
         Nodo nodoDestino = obtenerNodoFromString(nodos,destino);
 
-        ruta.establecerDistanciaTotal(nodoDestino.obtenerMinimaDistancia());
-
         List<Nodo> ciudadesDePaso = AlgoritmoDijkstra.obtenerElCaminoMasCortoADestino(nodoDestino);
 
+        ruta.establecerDistanciaTotal(nodoDestino.obtenerMinimaDistancia());
         ruta.establecerCiudadesDePaso(convertirListaDeNodosAListaDeCiudades(ciudadesDePaso));
 
         return ruta;
