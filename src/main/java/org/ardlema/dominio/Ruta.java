@@ -1,5 +1,9 @@
 package org.ardlema.dominio;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class Ruta {
@@ -22,5 +26,20 @@ public class Ruta {
 
     public void establecerCiudadesDePaso(List<Ciudad> ciudades) {
         ciudadesDePaso = ciudades;
+    }
+
+    public String imprimirCiudadesDePaso() {
+        StringBuilder strBuilder = new StringBuilder();
+
+        strBuilder.append("[ ");
+        String separacion = "";
+        for (Ciudad ciudad: obtenerCiudadesDePaso()) {
+            strBuilder.append(separacion);
+            strBuilder.append(ciudad.obtenerNombreCiudad());
+            separacion = " -> ";
+        }
+        strBuilder.append(" ]");
+        return strBuilder.toString();
+
     }
 }
