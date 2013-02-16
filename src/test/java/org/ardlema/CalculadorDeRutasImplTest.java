@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.ardlema.dominio.Ciudad;
 import org.ardlema.dominio.Ruta;
+import org.ardlema.excepciones.CalculadorDeRutasException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,21 @@ public class CalculadorDeRutasImplTest extends TestCase {
 
         assertEquals(200.0, ruta.obtenerDistanciaTotal());
         assertEquals(2, ruta.obtenerCiudadesDePaso().size());
+
+    }
+
+    public void testRutaEntreMadridYCiudadDesconocida() {
+
+        CalculadorDeRutas calculadorDeRutas = new CalculadorDeRutasImpl();
+
+        Ruta ruta;
+
+        try {
+           ruta = calculadorDeRutas.obtenerRutaEntreCiudades("Madrid","Cuenca");
+           fail("Deberia haber lanzado una CalculadorDeRutasExcepcion");
+        } catch (CalculadorDeRutasException excepcion) {
+           assertTrue(true);
+        }
 
     }
 
