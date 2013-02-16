@@ -1,4 +1,4 @@
-SOLUCION - PRUEBA TECNICA CALCULO MINIMA DISTANCIA ENTRE DOS CIUDADES
+SOLUCION - PRUEBA TECNICA CALCULO MINIMA DISTANCIA ENTRE DOS CIUDADES 
 ---------------------------------------------------------------------
 
 Este repositorio contiene la solución al problema del cálculo de la distancia mínima entre dos ciudades.
